@@ -20,7 +20,7 @@ export default class toDoCoordinator {
       id: `TASK-${shortTask}-${uuid().slice(-4)}`,
       createdAt: new Date().toISOString(),
       status: "incomplete",
-      color: 'green',
+      color: `${task.color} - ${task.hexColor}`,
       task: task.task
   };
   return await ToDoModel.addTask(toDoList, taskEntry);
