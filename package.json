@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "To-Do App made for ArCA Node.js MongoDB Fullstack Developer course.",
   "main": "app.js",
+  "type": "module",
   "dependencies": {
     "ansi-regex": "^5.0.1",
     "ansi-styles": "^4.3.0",

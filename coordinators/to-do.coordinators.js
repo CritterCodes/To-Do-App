@@ -5,7 +5,7 @@ import fsp from 'fs/promises';
 
 export default class toDoCoordinator {
   static showList = async (filename) => {
-    return await ToDoModel.showList(filename);
+  return await ToDoModel.showList(filename);
   };
 
   static addTask = async (filename, add) => {
@@ -17,27 +17,8 @@ export default class toDoCoordinator {
   return await ToDoModel.addTask(filename, taskEntry);
   };
 
-  static getWidget = (id) => {
-    console.log('\t Coordinator : getWidget()');
-    return WidgetsModel.getWidget(id);
-  };
-
-  static deleteWidget = (id) => {
-    console.log('\t Coordinator : deleteWidget()');
-    return WidgetsModel.deleteWidget(id);
-  };
-
-  static replaceWidget = (id, widget) => {
-    console.log('\t Coordinator : replaceWidget()');
-    const replaceWidget = {
-      ...widget,
-      id,
-    };
-    return WidgetsModel.replaceWidget(id, replaceWidget);
-  };
-
-  static updateWidget = (id, widget) => {
-    console.log('\t Coordinator : replaceWidget()');
-    return WidgetsModel.updateWidget(id, widget);
+  static deleteTask = async (filename, id) => {
+    console.log('\t Coordinator : deleteTask()');
+    return await ToDoModel.deleteTask(filename, id);
   };
 }

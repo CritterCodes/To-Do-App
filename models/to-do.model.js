@@ -34,7 +34,7 @@ export default class ToDoModel {
         try {
             // Read the existing tasks
             const tdlist = await readTasks(filename);
-            console.log(`--------------------------------------------------\nList name: ${tdlist.name}\nCreated on ${tdlist.created}\n--------------------------------------------------\n`);
+            console.log(`--------------------------------------------------\nList name: ${tdlist.name}\nCreated on ${tdlist.createdAt}\n--------------------------------------------------\n`);
             tdlist.tasks.forEach((task) => {
                 console.log(`Task ID: ${task.id}\n\tDate-Time: ${task.createdAt}\n\t\tTask: ${task.task}\n--------------------------------------------------\n`);
             });
@@ -67,30 +67,36 @@ export default class ToDoModel {
             // Write the updated tasks back to the file
             await writeTasks(filename, tdlist);
             console.log(`${taskEntry.task} added successfully.`);
-            return {
+            const response = {
                 newTask: taskEntry,
-                updatedList: tdlist};
+                updatedList: tdlist}
+            return response;
         } catch (error) {
             console.error('An error occurred while adding the task:', error.message);
         }
     };
   
-    static taskDeletion = async (filename, deleteTask) => {
+    static deleteTask = async (toDoList, deleteTask) => {
         try {
+        const filename = `./toDoLists/${toDoList}.json`;
           // Read the existing tasks
           const tdlist = await readTasks(filename);
           const taskId = deleteTask;
-          
+          const removedTask = tdlist.tasks.find((task) => task.id === taskId );
           // Filter out the task with the specified id
           tdlist.tasks = tdlist.tasks.filter((task) => task.id !== taskId);
           
           // Write the updated tasks back to the file
           await writeTasks(filename, tdlist);
           console.log('Task deleted successfully.');
+          const response = {
+            DeletedTask: removedTask,
+            NewList: tdlist
+          };
+          return response;
       } catch (error) {
           console.error('An error occurred while deleting the task:', error.message);
-      }
-      return true;
+      };
     };
   }
   

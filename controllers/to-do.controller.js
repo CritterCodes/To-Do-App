@@ -31,10 +31,11 @@ export const taskDeletion = async (req, res, next) => {
   const result = await ToDoCoordinator.deleteTask(req.params.toDoList, req.params.deleteTask);
 
   if (result) {
-    res.status(204).json();
+    res.status(200).json(result);
   } else {
     res.status(404).json();
   }
+  
 };
 
 

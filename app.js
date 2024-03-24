@@ -16,7 +16,7 @@ app.get('/', (req, res) => {
   res.send('Hello There!')
 });
 
-app.post('/api/v1/toDo', newListHandlerMiddleware());
+app.post('/api/v1/toDo', toDoRouter);
 app.delete('/api/v1/toDo', toDoRouter);
 app.get('/api/v1/toDo', toDoRouter);
 

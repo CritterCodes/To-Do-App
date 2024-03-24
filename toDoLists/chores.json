@@ -1,0 +1,31 @@
+{
+  "name": "chores",
+  "createdAt": "2024-03-24T03:26:44.362Z",
+  "tasks": [
+    {
+      "id": "f79d1f46-a76f-4524-8968-c724c8266461",
+      "createdAt": "2024-03-24T03:59:36.304Z",
+      "task": "Dishes"
+    },
+    {
+      "id": "3912f071-ffec-4a69-b75a-e5683da3a7f1",
+      "createdAt": "2024-03-24T03:59:44.694Z",
+      "task": "Mop"
+    },
+    {
+      "id": "c8f9349a-8ae9-4430-87fc-bdfe9a0f4321",
+      "createdAt": "2024-03-24T03:59:51.430Z",
+      "task": "Sweep"
+    },
+    {
+      "id": "1d6a3fd6-e7e5-44f9-ad44-2fe2d38d685a",
+      "createdAt": "2024-03-24T04:00:16.473Z",
+      "task": "Litter-box"
+    },
+    {
+      "id": "51be38b4-8866-46b9-9eb4-08c1f30a34d0",
+      "createdAt": "2024-03-24T04:00:26.041Z",
+      "task": "counters"
+    }
+  ]
+}
