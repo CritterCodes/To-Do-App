@@ -1,50 +1,46 @@
 {
-  "listID": "LIST-example-cb2b",
+  "listID": "LIST-example-02a5",
   "name": "example",
-  "createdAt": "2024-03-25T02:42:22.903Z",
+  "createdAt": "2024-03-25T13:24:03.633Z",
   "tasks": [
     {
-      "taskID": "TASK-swee-9fe0",
-      "createdAt": "2024-03-25T02:42:22.902Z",
+      "taskID": "TASK-Swee-b24d",
+      "createdAt": "2024-03-25T13:24:03.633Z",
       "status": "incomplete",
-      "color": "red - undefined",
-      "task": "sweep"
+      "color": "red - #ff0000",
+      "task": "Sweep"
     },
     {
-      "taskID": "TASK-mop-d0b6",
-      "createdAt": "2024-03-25T02:42:29.762Z",
+      "taskID": "TASK-mop-1da7",
+      "createdAt": "2024-03-25T13:24:17.758Z",
       "status": "incomplete",
-      "color": "red - undefined",
+      "color": "green - #00ff00",
       "task": "mop"
     },
     {
-      "taskID": "TASK-vacu-5d7f",
-      "createdAt": "2024-03-25T02:42:37.721Z",
+      "taskID": "TASK-vacu-f103",
+      "createdAt": "2024-03-25T13:24:33.177Z",
       "status": "incomplete",
-      "color": "red - undefined",
+      "color": "blue - #0000ff",
       "task": "vacuum"
     },
     {
-      "taskID": "TASK-coun-5d1b",
-      "createdAt": "2024-03-25T02:42:54.773Z",
+      "taskID": "TASK-coun-a30d",
+      "createdAt": "2024-03-25T13:24:43.506Z",
       "status": "incomplete",
-      "color": "red - undefined",
+      "color": "red - #ff0000",
       "task": "counters"
-    },
-    {
-      "taskID": "TASK-clea-49e4",
-      "createdAt": "2024-03-25T02:43:03.493Z",
-      "status": "incomplete",
-      "color": "red - undefined",
-      "task": "clean fridge"
-    },
-    {
-      "taskID": "TASK-litt-aad1",
-      "createdAt": "2024-03-25T02:43:14.512Z",
-      "status": "incomplete",
-      "color": "red - undefined",
-      "task": "litter box"
     }
   ],
-  "completedTasks": []
+  "completedTasks": [
+    {
+      "taskID": "TASK-litt-fa64",
+      "createdAt": {
+        "updatedAt": "2024-03-25T13:54:13.270Z"
+      },
+      "status": "completed",
+      "color": "green - #00ff00",
+      "task": "litter box"
+    }
+  ]
 }

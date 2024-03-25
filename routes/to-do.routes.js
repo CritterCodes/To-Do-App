@@ -11,21 +11,21 @@ import {
 const toDoRouter = express.Router();
 
 //  Get a list of todo items
-toDoRouter.get('/showList/:toDoList', showList);
+toDoRouter.get('/list/:toDoList', showList);
 
 //  Get a single todo item by ID
-toDoRouter.get('/showTask/:toDoList/:taskID', showTask);
+toDoRouter.get('/list/:toDoList/task/:taskID', showTask);
 
 //  Create a new todo
-toDoRouter.post('/addTask/:toDoList', addTask);
+toDoRouter.post('/list/:toDoList/task', addTask);
 
 //  Update an existing todo item (full replace)
-toDoRouter.patch('/replace/:toDoList/:taskID', replaceTask)
+toDoRouter.patch('/list/:toDoList/task/:taskID', replaceTask)
 
 //  Partially update an existing todo item (patch)
-toDoRouter.patch('/update/:toDoList/:taskID/', updateTask)
+toDoRouter.patch('/list/:toDoList/task/:taskID/properties', updateTask)
 
 //  Delete a todo item
-toDoRouter.delete('/delete/:toDoList/:taskID', taskDeletion);
+toDoRouter.delete('list/:toDoList/task/:taskID', taskDeletion);
 
 export default toDoRouter;

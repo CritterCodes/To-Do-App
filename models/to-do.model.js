@@ -26,15 +26,9 @@ const writeTasks = async (filename, data) => {
         console.error('An error occurred:', error.message);
     }
 };
+const taskCompleted = async (status) => {
+    if (status = completed) {
 
-const findTask = async (filename, taskID) => {
-    try {
-        // Read the existing tasks
-        const tdlist = await readTasks(filename);
-        const searchedTask = tdlist.tasks.find((task) => task.id === taskID );
-        return searchedTask;
-    } catch (error) {
-        console.error('An error occurred while searching for the task:', error.message);
     }
 }
   
@@ -46,6 +40,7 @@ export default class ToDoModel {
         try {
             // Read the existing tasks
             const tdlist = await readTasks(filename);
+            console.log(tdlist);
             return tdlist;
       } catch (error) {
           return console.error('An error occurred while deleting the task:', error.message);
@@ -63,6 +58,7 @@ export default class ToDoModel {
             // Write the updated tasks back to the file
             await writeTasks(filename, tdlist);
             console.log('Task deleted successfully.');
+            console.log(requestedTask);
             const response = {
                 "Requested Task": requestedTask,
           };
@@ -91,8 +87,11 @@ export default class ToDoModel {
             // Read the existing tasks from the file
             const tdlist = await readTasks(filename);
             
-            // Add the new task to the array
-            tdlist.tasks.push(task);
+            if (task.status = "completed") {
+                tdlist.completedTasks.push(task);
+            } else {
+                tdlist.tasks.push(task);
+            };
             
             // Write the updated tasks back to the file
             await writeTasks(filename, tdlist);
@@ -123,7 +122,9 @@ export default class ToDoModel {
             console.log(`${update.task} added successfully.`);
             const response = {
                 updatedTask: update,
-                updatedList: tdlist}
+                updatedList: tdlist
+            }
+            console.log(response);
             return response;
         } catch (error) {
             console.error('An error occurred while adding the task:', error.message);
@@ -147,14 +148,21 @@ export default class ToDoModel {
                     task[taskKey] = task[taskKey];
                 }
             });       
-            // Add the new task to the array
-            tdlist.tasks.push(task);
+
+            if (task.status = "completed") {
+                tdlist.completedTasks.push(task);
+            } else {
+                tdlist.tasks.push(task);
+            }
+            
             // Write the updated tasks back to the file
             await writeTasks(filename, tdlist);
             console.log(`${update.task} added successfully.`);
             const response = {
                 update: task,
-                updatedList: tdlist}
+                updatedList: tdlist
+            };
+            console.log(response);
             return response;
         } catch (error) {
             console.error('An error occurred while updating the task:', error.message);
@@ -178,6 +186,7 @@ export default class ToDoModel {
                 DeletedTask: removedTask,
                 NewList: tdlist
             };
+            console.log(response);
           return response;
       } catch (error) {
             console.error('An error occurred while deleting the task:', error.message);

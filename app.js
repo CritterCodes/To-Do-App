@@ -13,12 +13,11 @@ const port = 3000;
 app.use(express.static('public'));
 app.use(json());
 
-app.post('/api/v1/toDo', colorCheckerMiddleware());
-app.patch('/api/v1/toDo', colorCheckerMiddleware());
-app.delete('/api/v1/toDo', toDoRouter);
-app.get('/api/v1/toDo', toDoRouter);
+app.post('/todo/api/v1/:toDoList', colorCheckerMiddleware());
+app.patch('/todo/api/v1/task/:toDoList:taskID', colorCheckerMiddleware());
+app.patch('/todo/api/v1/task-properties/:toDoList/:taskID', colorCheckerMiddleware());
 
-app.use('/api/v1/toDo', toDoRouter);
+app.use('/todo/api/v1', toDoRouter);
 
 // Error middleware MUST be last
 app.use(errorMiddleware());
