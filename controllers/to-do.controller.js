@@ -55,7 +55,7 @@ export const replaceTask = async (req, res, next) => {
 // update Task
 export const updateTask = async (req, res, next) => {
   try {
-    const result = await ToDoCoordinator.addTask(req.params.toDoList, req.params.taskID, req.body);
+    const result = await ToDoCoordinator.updateTask(req.params.toDoList, req.params.taskID, req.body);
     res.status(201).json(result);
   } catch (ex) {
     next(ex);

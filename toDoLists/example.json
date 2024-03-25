@@ -1,0 +1,50 @@
+{
+  "listID": "LIST-example-cb2b",
+  "name": "example",
+  "createdAt": "2024-03-25T02:42:22.903Z",
+  "tasks": [
+    {
+      "taskID": "TASK-swee-9fe0",
+      "createdAt": "2024-03-25T02:42:22.902Z",
+      "status": "incomplete",
+      "color": "red - undefined",
+      "task": "sweep"
+    },
+    {
+      "taskID": "TASK-mop-d0b6",
+      "createdAt": "2024-03-25T02:42:29.762Z",
+      "status": "incomplete",
+      "color": "red - undefined",
+      "task": "mop"
+    },
+    {
+      "taskID": "TASK-vacu-5d7f",
+      "createdAt": "2024-03-25T02:42:37.721Z",
+      "status": "incomplete",
+      "color": "red - undefined",
+      "task": "vacuum"
+    },
+    {
+      "taskID": "TASK-coun-5d1b",
+      "createdAt": "2024-03-25T02:42:54.773Z",
+      "status": "incomplete",
+      "color": "red - undefined",
+      "task": "counters"
+    },
+    {
+      "taskID": "TASK-clea-49e4",
+      "createdAt": "2024-03-25T02:43:03.493Z",
+      "status": "incomplete",
+      "color": "red - undefined",
+      "task": "clean fridge"
+    },
+    {
+      "taskID": "TASK-litt-aad1",
+      "createdAt": "2024-03-25T02:43:14.512Z",
+      "status": "incomplete",
+      "color": "red - undefined",
+      "task": "litter box"
+    }
+  ],
+  "completedTasks": []
+}

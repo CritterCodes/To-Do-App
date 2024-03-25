@@ -3,7 +3,7 @@ import fs from 'fs';
 import fsp from 'fs/promises';
 import yargs from 'yargs';
 import { v4 as uuid } from 'uuid';
-
+import {Task, List} from '../classes/classes.js'
 
 //  Function to read JSON data
 const readTasks = async (filename) => {
@@ -26,6 +26,17 @@ const writeTasks = async (filename, data) => {
         console.error('An error occurred:', error.message);
     }
 };
+
+const findTask = async (filename, taskID) => {
+    try {
+        // Read the existing tasks
+        const tdlist = await readTasks(filename);
+        const searchedTask = tdlist.tasks.find((task) => task.id === taskID );
+        return searchedTask;
+    } catch (error) {
+        console.error('An error occurred while searching for the task:', error.message);
+    }
+}
   
 export default class ToDoModel {
     //  Get a list of todo items
@@ -62,19 +73,18 @@ export default class ToDoModel {
     };
 
     //  Create a new todo
-    static addTask = async (toDoList, taskEntry) => {
+    static addTask = async (toDoList, task) => {
         const filename = `./toDoLists/${toDoList}.json`;
         const fileExists = fs.existsSync(filename);
-        const newToDoList = {
-            listID: `LIST-${toDoList.substr(0, 8)}-${uuid().slice(-4)}`,
-            name: toDoList,
-            createdAt: new Date().toISOString(),
-            tasks: [],
-            completedTasks: []
-        };
+        const newList = new List;
+        newList.listID = `LIST-${toDoList.substr(0, 8)}-${uuid().slice(-4)}`;
+        newList.name = toDoList;
+        newList.createdAt = new Date().toISOString();
+        newList.tasks = [];
+        newList.completedTasks = [];
         console.log(`${filename}`);
         if (!fileExists) {
-            await fsp.writeFile(filename, JSON.stringify(newToDoList, null, 2));
+            await fsp.writeFile(filename, JSON.stringify(newList, null, 2));
         }
 
         try {
@@ -82,13 +92,13 @@ export default class ToDoModel {
             const tdlist = await readTasks(filename);
             
             // Add the new task to the array
-            tdlist.tasks.push(taskEntry);
+            tdlist.tasks.push(task);
             
             // Write the updated tasks back to the file
             await writeTasks(filename, tdlist);
-            console.log(`${taskEntry.task} added successfully.`);
+            console.log(`${task.task} added successfully.`);
             const response = {
-                newTask: taskEntry,
+                task: task,
                 updatedList: tdlist}
             return response;
         } catch (error) {
@@ -122,56 +132,55 @@ export default class ToDoModel {
 
     //  Partially update an existing todo item (patch)
     //  Update an existing todo item (full replace)
-    static updateTask = async (toDoList, taskEntry) => {
-        const filename = `./toDoLists/${toDoList}.json`;
-        const fileExists = fs.existsSync(filename);
-        const newToDoList = {
-            listID: `LIST-${toDoList.substr(0, 8)}-${uuid().slice(-4)}`,
-            name: toDoList,
-            createdAt: new Date().toISOString(),
-            tasks: [],
-            completedTasks: []
-        };
-
+    static updateTask = async (toDoList, taskID, update) => {
         try {
-            // Read the existing tasks from the file
+            const filename = `./toDoLists/${toDoList}.json`;
+            // Read the existing tasks
             const tdlist = await readTasks(filename);
+            const task = tdlist.tasks.find((ftask) => ftask.taskID === taskID );
+            tdlist.tasks = tdlist.tasks.filter((task) => task.taskID !== taskID);
             
+            Object.keys(task).forEach((taskKey) => {
+                if (update[taskKey]) {
+                    task[taskKey] = update[taskKey];
+                } else {
+                    task[taskKey] = task[taskKey];
+                }
+            });       
             // Add the new task to the array
-            tdlist.tasks.push(taskEntry);
-            
+            tdlist.tasks.push(task);
             // Write the updated tasks back to the file
             await writeTasks(filename, tdlist);
-            console.log(`${taskEntry.task} added successfully.`);
+            console.log(`${update.task} added successfully.`);
             const response = {
-                newTask: taskEntry,
+                update: task,
                 updatedList: tdlist}
             return response;
         } catch (error) {
-            console.error('An error occurred while adding the task:', error.message);
+            console.error('An error occurred while updating the task:', error.message);
         }
     };
 
     //  Delete a todo item
     static deleteTask = async (toDoList, taskID) => {
         try {
-        const filename = `./toDoLists/${toDoList}.json`;
-          // Read the existing tasks
-          const tdlist = await readTasks(filename);
-          const removedTask = tdlist.tasks.find((task) => task.id === taskID );
-          // Filter out the task with the specified id
-          tdlist.tasks = tdlist.tasks.filter((task) => task.id !== taskID);
+            const filename = `./toDoLists/${toDoList}.json`;
+            // Read the existing tasks
+            const tdlist = await readTasks(filename);
+            const removedTask = tdlist.tasks.find((task) => task.id === taskID );
+            // Filter out the task with the specified id
+            tdlist.tasks = tdlist.tasks.filter((task) => task.id !== taskID);
           
-          // Write the updated tasks back to the file
-          await writeTasks(filename, tdlist);
-          console.log('Task deleted successfully.');
-          const response = {
-            DeletedTask: removedTask,
-            NewList: tdlist
-          };
+            // Write the updated tasks back to the file
+            await writeTasks(filename, tdlist);
+            console.log('Task deleted successfully.');
+            const response = {
+                DeletedTask: removedTask,
+                NewList: tdlist
+            };
           return response;
       } catch (error) {
-          console.error('An error occurred while deleting the task:', error.message);
+            console.error('An error occurred while deleting the task:', error.message);
       };
     };
   }
