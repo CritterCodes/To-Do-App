@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import express from 'express';
 import bodyParser from 'body-parser';
 import errorMiddleware from './middleware/errorHandler.js';

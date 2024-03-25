@@ -2,36 +2,7 @@
   "listID": "LIST-example-02a5",
   "name": "example",
   "createdAt": "2024-03-25T13:24:03.633Z",
-  "tasks": [
-    {
-      "taskID": "TASK-Swee-b24d",
-      "createdAt": "2024-03-25T13:24:03.633Z",
-      "status": "incomplete",
-      "color": "red - #ff0000",
-      "task": "Sweep"
-    },
-    {
-      "taskID": "TASK-mop-1da7",
-      "createdAt": "2024-03-25T13:24:17.758Z",
-      "status": "incomplete",
-      "color": "green - #00ff00",
-      "task": "mop"
-    },
-    {
-      "taskID": "TASK-vacu-f103",
-      "createdAt": "2024-03-25T13:24:33.177Z",
-      "status": "incomplete",
-      "color": "blue - #0000ff",
-      "task": "vacuum"
-    },
-    {
-      "taskID": "TASK-coun-a30d",
-      "createdAt": "2024-03-25T13:24:43.506Z",
-      "status": "incomplete",
-      "color": "red - #ff0000",
-      "task": "counters"
-    }
-  ],
+  "tasks": [],
   "completedTasks": [
     {
       "taskID": "TASK-litt-fa64",

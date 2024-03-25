@@ -1,9 +1,9 @@
+/* eslint-disable import/extensions */
 //  Imports
 import fs from 'fs';
 import fsp from 'fs/promises';
-import yargs from 'yargs';
 import { v4 as uuid } from 'uuid';
-import {Task, List} from '../classes/classes.js'
+import { List } from '../classes/classes.js';
 
 //  Function to read JSON data
 const readTasks = async (filename) => {
@@ -14,7 +14,7 @@ const readTasks = async (filename) => {
         console.error('An error occurred while reading the file:', error.message);
         throw error; // Re-throw the error for handling in the caller function
     }
-}
+};
 
 //  function to write json data
 const writeTasks = async (filename, data) => {
@@ -26,25 +26,20 @@ const writeTasks = async (filename, data) => {
         console.error('An error occurred:', error.message);
     }
 };
-const taskCompleted = async (status) => {
-    if (status = completed) {
 
-    }
-}
-  
 export default class ToDoModel {
     //  Get a list of todo items
     static showList = async (toDoList) => {
         const filename = `./toDoLists/${toDoList}.json`;
-        
+
         try {
             // Read the existing tasks
             const tdlist = await readTasks(filename);
             console.log(tdlist);
             return tdlist;
-      } catch (error) {
-          return console.error('An error occurred while deleting the task:', error.message);
-      }
+        } catch (error) {
+            return console.error('An error occurred while deleting the task:', error.message);
+        }
     };
 
     //  Get a single todo item by ID
@@ -53,26 +48,26 @@ export default class ToDoModel {
             const filename = `./toDoLists/${toDoList}.json`;
             // Read the existing tasks
             const tdlist = await readTasks(filename);
-            const requestedTask = tdlist.tasks.find((task) => task.id === taskId );
-          
+            const requestedTask = tdlist.tasks.find((task) => task.id === taskId);
+
             // Write the updated tasks back to the file
             await writeTasks(filename, tdlist);
             console.log('Task deleted successfully.');
             console.log(requestedTask);
             const response = {
-                "Requested Task": requestedTask,
-          };
-          return response;
-      } catch (error) {
-          console.error('An error occurred while deleting the task:', error.message);
-      };
+                'Requested Task': requestedTask,
+            };
+            return response;
+        } catch (error) {
+            console.error('An error occurred while deleting the task:', error.message);
+        }
     };
 
     //  Create a new todo
     static addTask = async (toDoList, task) => {
         const filename = `./toDoLists/${toDoList}.json`;
         const fileExists = fs.existsSync(filename);
-        const newList = new List;
+        const newList = new List();
         newList.listID = `LIST-${toDoList.substr(0, 8)}-${uuid().slice(-4)}`;
         newList.name = toDoList;
         newList.createdAt = new Date().toISOString();
@@ -86,19 +81,20 @@ export default class ToDoModel {
         try {
             // Read the existing tasks from the file
             const tdlist = await readTasks(filename);
-            
-            if (task.status = "completed") {
+
+            if (task.status === 'completed') {
                 tdlist.completedTasks.push(task);
             } else {
                 tdlist.tasks.push(task);
-            };
-            
+            }
+
             // Write the updated tasks back to the file
             await writeTasks(filename, tdlist);
             console.log(`${task.task} added successfully.`);
             const response = {
-                task: task,
-                updatedList: tdlist}
+                task,
+                updatedList: tdlist,
+            };
             return response;
         } catch (error) {
             console.error('An error occurred while adding the task:', error.message);
@@ -108,23 +104,25 @@ export default class ToDoModel {
     //  Update an existing todo item (full replace)
     static replaceTask = async (toDoList, taskID, update) => {
         const filename = `./toDoLists/${toDoList}.json`;
-        await ToDoModel.deleteTask(toDoList, taskID);
+        let response = {};
 
         try {
             // Read the existing tasks from the file
             const tdlist = await readTasks(filename);
-            
-            // Add the new task to the array
-            tdlist.tasks.push(update);
-            
-            // Write the updated tasks back to the file
-            await writeTasks(filename, tdlist);
-            console.log(`${update.task} added successfully.`);
-            const response = {
-                updatedTask: update,
-                updatedList: tdlist
+            const task = tdlist.tasks.find((ftask) => ftask.taskID === taskID);
+
+            if (!task) {
+                response = {
+                    error: 'Could not find task, wrong taskID.',
+                };
+            } else {
+                // Add the new task to the array
+                tdlist.tasks.push(update);
+                // Write the updated tasks back to the file
+                await writeTasks(filename, tdlist);
+                console.log(`${update.task} added successfully.`);
+                console.log(response);
             }
-            console.log(response);
             return response;
         } catch (error) {
             console.error('An error occurred while adding the task:', error.message);
@@ -138,30 +136,24 @@ export default class ToDoModel {
             const filename = `./toDoLists/${toDoList}.json`;
             // Read the existing tasks
             const tdlist = await readTasks(filename);
-            const task = tdlist.tasks.find((ftask) => ftask.taskID === taskID );
-            tdlist.tasks = tdlist.tasks.filter((task) => task.taskID !== taskID);
-            
-            Object.keys(task).forEach((taskKey) => {
-                if (update[taskKey]) {
-                    task[taskKey] = update[taskKey];
-                } else {
-                    task[taskKey] = task[taskKey];
-                }
-            });       
-
-            if (task.status = "completed") {
-                tdlist.completedTasks.push(task);
+            const task = tdlist.tasks.find((ftask) => ftask.taskID === taskID);
+            let response = {};
+            if (!task) {
+                response = {
+                    error: 'Task not found, Invalid taskID.',
+                };
             } else {
-                tdlist.tasks.push(task);
+                tdlist.tasks = tdlist.tasks
+                    .filter((filteredTask) => filteredTask.taskID !== taskID);
+                Object.keys(task).forEach((taskKey) => {
+                    if (update[taskKey]) {
+                        task[taskKey] = update[taskKey];
+                    } else {
+                        // eslint-disable-next-line no-self-assign
+                        task[taskKey] = task[taskKey];
+                    }
+                });
             }
-            
-            // Write the updated tasks back to the file
-            await writeTasks(filename, tdlist);
-            console.log(`${update.task} added successfully.`);
-            const response = {
-                update: task,
-                updatedList: tdlist
-            };
             console.log(response);
             return response;
         } catch (error) {
@@ -175,22 +167,30 @@ export default class ToDoModel {
             const filename = `./toDoLists/${toDoList}.json`;
             // Read the existing tasks
             const tdlist = await readTasks(filename);
-            const removedTask = tdlist.tasks.find((task) => task.id === taskID );
-            // Filter out the task with the specified id
-            tdlist.tasks = tdlist.tasks.filter((task) => task.id !== taskID);
-          
-            // Write the updated tasks back to the file
-            await writeTasks(filename, tdlist);
-            console.log('Task deleted successfully.');
-            const response = {
-                DeletedTask: removedTask,
-                NewList: tdlist
+            const removedTask = tdlist.tasks.find((task) => task.id === taskID);
+            let response = {
             };
-            console.log(response);
-          return response;
-      } catch (error) {
+            console.log(removedTask);
+            if (!removedTask) {
+                response = {
+                    error: 'Task does not exist, invalid taskID.',
+                };
+                return response;
+            }
+                response = {
+                    deletedTask: removedTask,
+                    newList: tdlist,
+                };
+                // Filter out the task with the specified id
+                tdlist.tasks = tdlist.tasks.filter((task) => task.id !== taskID);
+
+                // Write the updated tasks back to the file
+                await writeTasks(filename, tdlist);
+                console.log('Task deleted successfully.');
+                console.log(response);
+                return response;
+        } catch (error) {
             console.error('An error occurred while deleting the task:', error.message);
-      };
+        }
     };
-  }
-  
+}

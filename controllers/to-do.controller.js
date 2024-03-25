@@ -1,3 +1,4 @@
+/* eslint-disable import/extensions */
 import ToDoCoordinator from '../coordinators/to-do.coordinators.js';
 
 //  show list
@@ -10,7 +11,7 @@ export const showList = async (req, res, next) => {
     } else {
       res.status(404).json();
     }
-  } catch (ex) { 
+  } catch (ex) {
     next(ex);
   }
 };
@@ -45,7 +46,8 @@ export const addTask = async (req, res, next) => {
 //  replace Task
 export const replaceTask = async (req, res, next) => {
   try {
-    const result = await ToDoCoordinator.replaceTask(req.params.toDoList, req.params.taskID, req.body);
+    const result = await ToDoCoordinator
+      .replaceTask(req.params.toDoList, req.params.taskID, req.body);
     res.status(201).json(result);
   } catch (ex) {
     next(ex);
@@ -55,27 +57,27 @@ export const replaceTask = async (req, res, next) => {
 // update Task
 export const updateTask = async (req, res, next) => {
   try {
-    const result = await ToDoCoordinator.updateTask(req.params.toDoList, req.params.taskID, req.body);
+    const result = await ToDoCoordinator
+      .updateTask(req.params.toDoList, req.params.taskID, req.body);
     res.status(201).json(result);
   } catch (ex) {
     next(ex);
   }
 };
-//delete task
+
+//  delete task
 export const taskDeletion = async (req, res, next) => {
-  console.log(`Controller : deleteTask(${req.params.deleteTask})`);
+  console.log(`Controller : deleteTask(${req.params.taskID})`);
 
   try {
-    const result = await ToDoCoordinator.deleteTask(req.params.toDoList, req.params.deleteTask);
+    const result = await ToDoCoordinator.deleteTask(req.params.toDoList, req.params.taskID);
 
-    if (result) {
-      res.status(200).json(result);
-    } else {
+    if (result.error) {
       res.status(404).json();
+    } else {
+      res.status(200).json(result);
     }
   } catch (ex) {
     next(ex);
   }
 };
-
-
