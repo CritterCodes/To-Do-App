@@ -12,7 +12,7 @@ export default class toDoCoordinator {
 
   //  Create a new todo
   static addTask = async (toDoList, task) => {
-    const shortTask = task.task.substr(0, 4);
+    const shortTask = task.task.split(' ').join('').substr(0, 4);
     const newTask = new Task();
     newTask.taskID = `TASK-${shortTask}-${uuid().slice(-4)}`;
     newTask.createdAt = new Date().toISOString();
@@ -32,14 +32,25 @@ export default class toDoCoordinator {
 
   //  Update an existing todo item (full replace)
   static replaceTask = async (toDoList, taskID, update) => {
-    const taskEntry = {
-      id: `${taskID}`,
-      updatedAt: new Date().toISOString(),
-      status: update.status,
-      color: update.color,
-      task: update.task,
-    };
-    return await ToDoModel.replaceTask(toDoList, taskID, taskEntry);
+    const updatedTask = new Task();
+    updatedTask.taskID = taskID;
+    updatedTask.createdAt = { updatedAt: new Date().toISOString() };
+    Object.keys(update).forEach((key) => {
+      switch (key) {
+        case 'status':
+          updatedTask.status = update.status;
+          break;
+        case 'color':
+          updatedTask.color = update.color;
+          break;
+        case 'task':
+          updatedTask.task = update.task;
+          break;
+        default:
+          break;
+      }
+    });
+    return await ToDoModel.updateTask(toDoList, taskID, update, updatedTask);
   };
 
   //  Partially update an existing todo item (patch)
@@ -62,7 +73,7 @@ export default class toDoCoordinator {
           break;
       }
     });
-    return await ToDoModel.updateTask(toDoList, taskID, updatedTask);
+    return await ToDoModel.updateTask(toDoList, taskID, update, updatedTask);
   };
 
   //  Delete a todo item

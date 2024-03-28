@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import errorMiddleware from './middleware/errorHandler.js';
 import colorCheckerMiddleware from './middleware/colorChecker.js';
 import toDoRouter from './routes/to-do.routes.js';
+import { db } from './lib/database.js';
 
 const { json } = bodyParser;
 
@@ -22,6 +23,16 @@ app.use('/todo/api/v1', toDoRouter);
 
 // Error middleware MUST be last
 app.use(errorMiddleware());
+
+// TODO: Environment based configs
+const config = {
+  url: 'mongodb+srv://jacobaengel55:Lafiesta16!@crittercodes.wax9zyp.mongodb.net/',
+  database: 'ArCA',
+  minPoolSize: 3,
+  maxPoolSize: 10,
+};
+
+db.init(config);
 
 app.listen(port, () => {
   console.log(`Starting express application on port ${port} @ ${new Date().toISOString()}`);
