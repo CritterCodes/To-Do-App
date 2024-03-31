@@ -15,9 +15,9 @@ const port = 3000;
 app.use(express.static('public'));
 app.use(json());
 
-app.post('/todo/api/v1/:toDoList', colorCheckerMiddleware());
-app.patch('/todo/api/v1/task/:toDoList:taskID', colorCheckerMiddleware());
-app.patch('/todo/api/v1/task-properties/:toDoList/:taskID', colorCheckerMiddleware());
+app.post('/todo/api/v1/list/:toDoList/task', colorCheckerMiddleware());
+app.patch('/todo/api/v1/list/:toDoList/task/:taskID', colorCheckerMiddleware());
+app.patch('/todo/api/v1/list/:toDoList/task/:taskID/properties', colorCheckerMiddleware());
 
 app.use('/todo/api/v1', toDoRouter);
 
@@ -26,8 +26,8 @@ app.use(errorMiddleware());
 
 // TODO: Environment based configs
 const config = {
-  url: 'mongodb+srv://jacobaengel55:Lafiesta16!@crittercodes.wax9zyp.mongodb.net/',
-  database: 'ArCA',
+  url: 'mongodb://localhost:27017/',
+  database: 'ARCA',
   minPoolSize: 3,
   maxPoolSize: 10,
 };
