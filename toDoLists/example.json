@@ -1,0 +1,17 @@
+{
+  "listID": "LIST-example-02a5",
+  "name": "example",
+  "createdAt": "2024-03-25T13:24:03.633Z",
+  "tasks": [],
+  "completedTasks": [
+    {
+      "taskID": "TASK-litt-fa64",
+      "createdAt": {
+        "updatedAt": "2024-03-25T13:54:13.270Z"
+      },
+      "status": "completed",
+      "color": "green - #00ff00",
+      "task": "litter box"
+    }
+  ]
+}

@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "description": "To-Do App made for ArCA Node.js MongoDB Fullstack Developer course.",
   "main": "app.js",
+  "type": "module",
   "dependencies": {
     "ansi-regex": "^5.0.1",
     "ansi-styles": "^4.3.0",
+    "body-parser": "^1.20.2",
     "cliui": "^8.0.1",
     "color-convert": "^2.0.1",
     "color-name": "^1.1.4",
     "emoji-regex": "^8.0.0",
     "escalade": "^3.1.2",
+    "express": "^4.19.1",
     "get-caller-file": "^2.0.5",
     "is-fullwidth-code-point": "^3.0.0",
     "require-directory": "^2.1.1",
@@ -26,5 +29,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "CritterCodes",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.29.1"
+  }
 }
