@@ -1,0 +1,300 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "To-Do List API",
+    "description": "API for managing to-do lists and tasks within them.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/todo/api/v1",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/list/:toDoList": {
+      "get": {
+        "summary": "Get a list of todo items",
+        "operationId": "getList",
+        "parameters": [
+          {
+            "name": "toDoList",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The name of the to-do list"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of todo items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Task"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "List not found"
+          }
+        }
+      }
+    },
+    "/list/:toDoList/task": {
+      "post": {
+        "summary": "Create a new todo",
+        "operationId": "addTask",
+        "parameters": [
+          {
+            "name": "toDoList",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The name of the to-do list"
+          }
+        ],
+        "requestBody": {
+          "description": "The task to add",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Task"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/list/:toDoList/task/:taskID": {
+      "get": {
+        "summary": "Get a single todo item by ID",
+        "operationId": "getTask",
+        "parameters": [
+          {
+            "name": "toDoList",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The name of the to-do list"
+          },
+          {
+            "name": "taskID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the task"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of a todo task",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update an existing todo item (full replace)",
+        "operationId": "replaceTask",
+        "parameters": [
+          {
+            "name": "toDoList",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "taskID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "The updated task data",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Task"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Task updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        }
+      },
+      "patch": {
+        "summary": "Partially update an existing todo item",
+        "operationId": "updateTaskProperties",
+        "parameters": [
+          {
+            "name": "toDoList",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The name of the to-do list"
+          },
+          {
+            "name": "taskID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the task to be updated"
+          }
+        ],
+        "requestBody": {
+          "description": "Partial task data for updating specific properties",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Task"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Task partially updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a todo item",
+        "operationId": "deleteTask",
+        "parameters": [
+          {
+            "name": "toDoList",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The name of the to-do list"
+          },
+          {
+            "name": "taskID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The ID of the task to be deleted"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Task successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Task"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Task not found"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Task": {
+        "type": "object",
+        "required": ["taskID", "createdAt", "status", "task"],
+        "properties": {
+          "taskID": {
+            "type": "string",
+            "description": "Unique identifier for the task"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of task creation"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the task"
+          },
+          "task": {
+            "type": "string",
+            "description": "Description of the task"
+          },
+          "color": {
+            "type": "string",
+            "description": "Visual color representation for the task"
+          }
+        }
+      }
+    }
+  }
+}

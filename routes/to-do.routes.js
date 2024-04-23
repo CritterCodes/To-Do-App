@@ -21,7 +21,7 @@ toDoRouter.get('/list/:toDoList/task/:taskID', showTask);
 toDoRouter.post('/list/:toDoList/task', addTask);
 
 //  Update an existing todo item (full replace)
-toDoRouter.patch('/list/:toDoList/task/:taskID', replaceTask);
+toDoRouter.put('/list/:toDoList/task/:taskID', replaceTask);
 
 //  Partially update an existing todo item (patch)
 toDoRouter.patch('/list/:toDoList/task/:taskID/properties', updateTask);

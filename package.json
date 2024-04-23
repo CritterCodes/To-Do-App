@@ -5,6 +5,8 @@
   "main": "app.js",
   "type": "module",
   "dependencies": {
+    "ajv": "^8.12.0",
+    "ajv-formats": "^3.0.1",
     "ansi-regex": "^5.0.1",
     "ansi-styles": "^4.3.0",
     "body-parser": "^1.20.2",
@@ -16,6 +18,8 @@
     "express": "^4.19.1",
     "get-caller-file": "^2.0.5",
     "is-fullwidth-code-point": "^3.0.0",
+    "mongodb": "^6.5.0",
+    "openapi": "^1.0.1",
     "require-directory": "^2.1.1",
     "string-width": "^4.2.3",
     "strip-ansi": "^6.0.1",

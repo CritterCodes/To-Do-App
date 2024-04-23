@@ -1,7 +1,14 @@
 /* eslint-disable import/extensions */
 import { v4 as uuid } from 'uuid';
 import ToDoModel from '../models/to-do.model.js';
-import { Task } from '../classes/classes.js';
+import Task from '../classes/task.js';
+import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
+import taskSchema from '../schemas/task.json' assert { type: 'json' };
+
+const ajv = new Ajv();
+addFormats(ajv);
+const taskValidate = ajv.compile(taskSchema);
 
 export default class toDoCoordinator {
   //  Get a list of todo items
@@ -20,13 +27,11 @@ export default class toDoCoordinator {
     newTask.color = `${task.color} - ${task.hexColor}`;
     newTask.task = task.task;
 
-    /* {
-      id: `TASK-${shortTask}-${uuid().slice(-4)}`,
-      createdAt: new Date().toISOString(),
-      status: "incomplete",
-      color: `${task.color} - ${task.hexColor}`,
-      task: task.task
-    }; */
+    const valid = taskValidatealidate(newTask);
+    if (!valid) {
+      throw validate.errors;
+    }
+
     return await ToDoModel.addTask(toDoList, newTask);
   };
 
@@ -50,6 +55,12 @@ export default class toDoCoordinator {
           break;
       }
     });
+
+    const valid = taskValidate(updatedTask);
+    if (!valid) {
+      throw validate.errors;
+    }
+
     return await ToDoModel.updateTask(toDoList, taskID, update, updatedTask);
   };
 
@@ -73,6 +84,12 @@ export default class toDoCoordinator {
           break;
       }
     });
+
+    const valid = taskValidate(updatedTask);
+    if (!valid) {
+      throw validate.errors;
+    }
+
     return await ToDoModel.updateTask(toDoList, taskID, update, updatedTask);
   };
 
