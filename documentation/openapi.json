@@ -127,7 +127,7 @@
           }
         }
       },
-      "patch": {
+      "put": {
         "summary": "Update an existing todo item (full replace)",
         "operationId": "replaceTask",
         "parameters": [
