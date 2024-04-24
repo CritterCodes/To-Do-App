@@ -19,6 +19,7 @@ app.post('/todo/api/v1/list/:toDoList/task', colorCheckerMiddleware());
 app.patch('/todo/api/v1/list/:toDoList/task/:taskID', colorCheckerMiddleware());
 app.patch('/todo/api/v1/list/:toDoList/task/:taskID/properties', colorCheckerMiddleware());
 
+app.use(express.static('public'));
 app.use('/todo/api/v1', toDoRouter);
 
 // Error middleware MUST be last

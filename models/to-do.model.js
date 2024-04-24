@@ -1,9 +1,16 @@
 /* eslint-disable import/extensions */
 //  Imports
 import { v4 as uuid } from 'uuid';
-import { List } from '../classes/classes.js';
+import List from '../classes/list.js';
 import { db } from '../lib/database.js';
 import Constants from '../lib/constants.js';
+import listSchema from '../schemas/list.json' assert { type: 'json' };
+import Ajv from 'ajv';
+import addFormats from 'ajv-formats';
+
+const ajv = new Ajv();
+addFormats(ajv);
+const listValidate = ajv.compile(listSchema);
 
 //  Function to read JSON data
 const readList = async (name) => {
@@ -116,7 +123,7 @@ export default class ToDoModel {
             } else {
                 console.log(task.task);
                 response = {
-                    'Requested Task': task.task,
+                    'requestedTask': task.task,
                 };
             }
         } catch (error) {
@@ -143,6 +150,12 @@ export default class ToDoModel {
                 response = {
                     'New List': newList,
                 };
+
+                const valid = listValidate(newList);
+                if (!valid) {
+                  throw validate.errors;
+                }
+
                 await writeTasks(toDoList, newList);
             } else {
                     tdList.list.tasks.push(task);

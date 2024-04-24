@@ -1,0 +1,31 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://myapplication/list.json",
+    "title": "List",
+    "description": "A to-do list",
+    "type": "object",
+    "required": ["listID", "name", "createdAt"],
+    "properties": {
+      "listID": {
+        "description": "The unique id for this list -, format: TASK-${shortTask}-${uuid().slice(-4)}",
+        "type": "string"
+      },
+      "name": {
+        "description": "The name of this task",
+        "type": "string",
+        "minLength": 3
+      },
+      "createdAt": {
+        "description": "The date the list was made on.",
+        "type": "string"
+      },
+      "tasks": {
+        "description": "The tasks of this list",
+        "type": "array"
+      },
+      "completedTasks": {
+        "description": "Completed tasks for this list",
+        "type": "array"
+      }
+    }
+  }
