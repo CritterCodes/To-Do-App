@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Myntwave - Sol Survivor</title>
+    <link rel="icon" href="./images/mindseye-favicon.png" type="image/x-icon">
+    <meta name="description" content="Enter the MyntWave monthly giveaway for a chance to win wave credits!">
+    <meta name="author" content="CritterCodes">
+    <link rel="stylesheet" href="./css/styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+
+<body>
+    <header>
+        <!-- Intentionally left blank for future use -->
+    </header>
+    <main>
+        <section id="giveawayEntry">
+            <h1 id="gameTitle">SOL SURVIVOR</h1>
+            <div id="startTime">Start Time: <span id="eventStartTime"></span></div>
+
+
+            <div id="shuffleContainer" class="bg-gray-800 text-white p-4 m-2 rounded-lg shadow-lg">
+                <h2 class="text-xl font-bold mb-4" id="statementDiv">The Last Man Standing is</h2>
+                <div id="currentContestant" class="text-2xl font-bold animate-pulse">Ryan Isreal</div>
+            </div>
+            <div id="contestantsList" class="mt-6">
+                <h2 class="text-xl font-bold mb-4">Contestants</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="contestantsInfo">
+                    <!-- Dynamically generated contestant info will go here -->
+                </div>
+            </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <div>
+            <img src="./images/myntwave-logo-footer.png" alt="MyntWave Logo">
+            <!-- Legal terms link can be included here -->
+        </div>
+    </footer>
+    <script src="./js/script.js"></script>
+    <script src="./js/matrix.js"></script>
+    <script src="./js/timer.js"></script>
+</body>
+
+</html>

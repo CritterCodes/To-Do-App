@@ -12,18 +12,20 @@
       },
       "task": {
         "description": "task description for this task",
-        "type": "array"
+        "type": "string"
+      },
+      "createdAt": {
+        "description": "The date the list was made on.",
+        "type": "string"
       },
       "status": {
         "description": "The status of this task",
-        "type": "integer",
-        "minimum": 1,
-        "maximum": 25
+        "type": "string"
       },
       "color": {
         "description": "The color of this widget",
         "type": "string",
-        "enum": ["red", "green", "blue"]
+        "enum": ["red - #ff0000", "green - #00ff00", "blue - #0000ff"]
       }
     }
   }

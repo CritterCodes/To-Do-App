@@ -15,12 +15,12 @@ const port = 3000;
 app.use(express.static('public'));
 app.use(json());
 
-app.post('/todo/api/v1/list/:toDoList/task', colorCheckerMiddleware());
-app.patch('/todo/api/v1/list/:toDoList/task/:taskID', colorCheckerMiddleware());
-app.patch('/todo/api/v1/list/:toDoList/task/:taskID/properties', colorCheckerMiddleware());
+app.post('/api/todo/v1/lists/:toDoList/tasks', colorCheckerMiddleware());
+app.put('/api/todo/v1/lists/:toDoList/tasks/:taskID', colorCheckerMiddleware());
+app.patch('/api/todo/v1/lists/:toDoList/tasks/:taskID/properties', colorCheckerMiddleware());
 
 app.use(express.static('public'));
-app.use('/todo/api/v1', toDoRouter);
+app.use('/api/todo/v1', toDoRouter);
 
 // Error middleware MUST be last
 app.use(errorMiddleware());

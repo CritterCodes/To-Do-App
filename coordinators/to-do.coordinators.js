@@ -27,9 +27,13 @@ export default class toDoCoordinator {
     newTask.color = `${task.color} - ${task.hexColor}`;
     newTask.task = task.task;
 
-    const valid = taskValidatealidate(newTask);
+    const valid = taskValidate(newTask);
     if (!valid) {
-      throw validate.errors;
+      const error = new Error('Validation failed');
+      error.statusCode = 400;
+      error.type = 'ValidationError';
+      error.details = taskValidate.errors;
+      throw error;
     }
 
     return await ToDoModel.addTask(toDoList, newTask);
@@ -39,14 +43,16 @@ export default class toDoCoordinator {
   static replaceTask = async (toDoList, taskID, update) => {
     const updatedTask = new Task();
     updatedTask.taskID = taskID;
-    updatedTask.createdAt = { updatedAt: new Date().toISOString() };
+    updatedTask.createdAt = "";
+    update.updatedAt = new Date().toISOString();
+    const missingProperties = []
     Object.keys(update).forEach((key) => {
       switch (key) {
         case 'status':
           updatedTask.status = update.status;
           break;
         case 'color':
-          updatedTask.color = update.color;
+          updatedTask.color = `${update.color} - ${update.hexColor}`;
           break;
         case 'task':
           updatedTask.task = update.task;
@@ -55,20 +61,40 @@ export default class toDoCoordinator {
           break;
       }
     });
+    Object.keys(updatedTask).forEach((key) => {      
+      console.log(`Checking for ${key}`);
+        if (!updatedTask[key] && key != 'createdAt') {
+          console.log(`${key} not found, pushing to missing`);
+          missingProperties.push(key);
+        }
+    });
+    if (missingProperties[0]) {
+      const error = new Error('Validation failed');
+      error.statusCode = 400;
+      error.type = 'ValidationError';
+      error.details = {missingProperties};
+      throw error;
+
+    }
 
     const valid = taskValidate(updatedTask);
     if (!valid) {
-      throw validate.errors;
+      const error = new Error('Validation failed');
+      error.statusCode = 400;
+      error.type = 'ValidationError';
+      error.details = taskValidate.errors;
+      throw error;
     }
 
-    return await ToDoModel.updateTask(toDoList, taskID, update, updatedTask);
+    return await ToDoModel.replaceTask(toDoList, taskID, update, updatedTask);
   };
 
   //  Partially update an existing todo item (patch)
   static updateTask = async (toDoList, taskID, update) => {
     const updatedTask = new Task();
     updatedTask.taskID = taskID;
-    updatedTask.createdAt = { updatedAt: new Date().toISOString() };
+    updatedTask.createdAt = "";
+    update.updatedAt = new Date().toISOString();
     Object.keys(update).forEach((key) => {
       switch (key) {
         case 'status':
@@ -87,7 +113,11 @@ export default class toDoCoordinator {
 
     const valid = taskValidate(updatedTask);
     if (!valid) {
-      throw validate.errors;
+      const error = new Error('Validation failed');
+      error.statusCode = 400;
+      error.type = 'ValidationError';
+      error.details = taskValidate.errors;
+      throw error;
     }
 
     return await ToDoModel.updateTask(toDoList, taskID, update, updatedTask);
