@@ -12,7 +12,7 @@
     }
   ],
   "paths": {
-    "/list/:toDoList": {
+    "/list/{toDoList}": {
       "get": {
         "summary": "Get a list of todo items",
         "operationId": "getList",
@@ -47,7 +47,7 @@
         }
       }
     },
-    "/list/:toDoList/task": {
+    "/list/{toDoList}/task": {
       "post": {
         "summary": "Create a new todo",
         "operationId": "addTask",
@@ -87,7 +87,7 @@
         }
       }
     },
-    "/list/:toDoList/task/:taskID": {
+    "/list/{toDoList}/task/{taskID}": {
       "get": {
         "summary": "Get a single todo item by ID",
         "operationId": "getTask",

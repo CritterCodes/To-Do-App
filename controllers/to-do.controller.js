@@ -1,3 +1,5 @@
+/* eslint-disable import/no-named-as-default-member */
+/* eslint-disable import/no-named-as-default */
 /* eslint-disable import/extensions */
 import ToDoCoordinator from '../coordinators/to-do.coordinators.js';
 
@@ -19,7 +21,7 @@ export const showList = async (req, res, next) => {
 //  show task
 export const showTask = async (req, res, next) => {
   try {
-    const result = await ToDoCoordinator.showTask(req.params.toDoList);
+    const result = await ToDoCoordinator.showTask(req.params.toDoList, req.params.taskID);
 
     if (result) {
       res.status(200).json(result);

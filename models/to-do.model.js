@@ -8,6 +8,7 @@ import listSchema from '../schemas/list.json' assert { type: 'json' };
 import Ajv from 'ajv';
 import addFormats from 'ajv-formats';
 
+
 const ajv = new Ajv();
 addFormats(ajv);
 const listValidate = ajv.compile(listSchema);
@@ -20,11 +21,10 @@ const readList = async (name) => {
             { name },
             { projection: Constants.DEFAULT_PROJECTION },
           );
-          console.log(list);
           if (!list) {
                 response = {
                     status: false,
-                    error: 'That list does not exist. Try anothe list name.',
+                    error: 'That list does not exist. Try another list name.',
                 };
                 console.log(response);
           } else {
@@ -103,10 +103,9 @@ export default class ToDoModel {
                     console.error(response);
                 } else {
                     response = tdList.list;
-                    console.log(tdList.list);
                 }
             } catch (error) {
-                return console.error('An error occurred while deleting the task:', error.message);
+                return console.error('An error occurred while showing the list:', error.message);
             }
             return response;
         };
@@ -121,7 +120,6 @@ export default class ToDoModel {
                 response = task.error;
                 console.error(response);
             } else {
-                console.log(task.task);
                 response = {
                     'requestedTask': task.task,
                 };
@@ -174,7 +172,7 @@ export default class ToDoModel {
     };
 
     //  Update an existing todo item (full replace)
-    static replaceTask = async (toDoList, taskID, update) => {
+    static replaceTask = async (toDoList, taskID, update, updatedTask) => {
         let response = {};
         try {
             const tdList = await readList(toDoList);
@@ -185,27 +183,30 @@ export default class ToDoModel {
                 if (!importedTask.status) {
                     response = importedTask.error;
                 } else {
+                    console.log(importedTask);
                     Object.keys(importedTask.task).forEach((taskKey) => {
-                        if (update[taskKey] && taskKey === 'createdAt') {
-                                if (Array.isArray(importedTask.task.createdAt)) {
-                                    importedTask.task.createdAt.push(update[taskKey]);
-                                } else {
-                                        importedTask.task.createdAt = [
-                                            importedTask.task.createdAt, update[taskKey],
-                                        ];
-                                }
-                            } else if (update[taskKey]) {
-                               importedTask.task[taskKey] = update[taskKey];
-                            }
+                        if (updatedTask[taskKey] && taskKey === 'createdAt') {
+                            return;
+                        } else if (updatedTask[taskKey]) {
+                           importedTask.task[taskKey] = updatedTask[taskKey];
+                        }
                     });
-                    tdList.list.tasks = await removeTasks(tdList, taskID);
-                    // Add the new task to the array
-                    tdList.list.tasks.push(update);
-                    // Write the updated tasks back to the file
-                    await writeTasks(toDoList, tdList.list);
-                    console.log(`${update.task} added successfully.`);
+                    if (!importedTask.task.update) {
+                        importedTask.task.update = [update];
+                    } else {
+                        importedTask.task.update.push(update);
+                    }
+
+                    tdList.list.tasks = tdList.list.tasks
+                        .filter((filteredTask) => filteredTask.taskID !== taskID);
+
+                    if (importedTask.task.status === 'completed') {
+                        tdList.list.completedTasks.push(importedTask.task);
+                    } else {
+                        tdList.list.tasks.push(importedTask.task);
+                    }
                     response = {
-                        updatedTask: update,
+                        updatedTask: importedTask.task,
                         updatedList: tdList.list,
                     };
                     console.log(response);
@@ -234,16 +235,10 @@ export default class ToDoModel {
                 } else {
                     Object.keys(importedTask.task).forEach((taskKey) => {
                         if (updatedTask[taskKey] && taskKey === 'createdAt') {
-                                if (Array.isArray(importedTask.task.createdAt)) {
-                                    importedTask.task.createdAt.push(updatedTask[taskKey]);
-                                } else {
-                                        importedTask.task.createdAt = [
-                                            importedTask.task.createdAt, updatedTask[taskKey],
-                                        ];
-                                }
-                            } else if (updatedTask[taskKey]) {
-                               importedTask.task[taskKey] = updatedTask[taskKey];
-                            }
+                            return;
+                        } else if (updatedTask[taskKey]) {
+                           importedTask.task[taskKey] = updatedTask[taskKey];
+                        }
                     });
                     if (!importedTask.task.update) {
                         importedTask.task.update = [update];
@@ -284,7 +279,6 @@ export default class ToDoModel {
                 console.error(response);
             } else {
                 const removedTask = await readTask(toDoList, taskID);
-                console.log(removedTask.task);
                 if (!removedTask.status) {
                     response = removedTask.error;
                 } else {
